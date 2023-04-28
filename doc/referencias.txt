@@ -1,0 +1,5 @@
+https://www.codemag.com/article/0102091/Handling-long-Web-Requests-with-Asynchronous-Request-Processing
+
+https://docs.goshippo.com/docs/api_concepts/asynchronusapicall/
+
+

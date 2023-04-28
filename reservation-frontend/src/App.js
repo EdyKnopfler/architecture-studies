@@ -1,9 +1,10 @@
-import './App.css'
+import './App.scss';
+import Reservation from './components/Reservation';
 
 function App() {
   return (
     <>
-      kkkkkkkk
+      <Reservation />
     </>
   );
 }

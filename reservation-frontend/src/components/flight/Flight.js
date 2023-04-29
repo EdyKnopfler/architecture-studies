@@ -1,7 +1,8 @@
-export default function Flight() {
+export default function Flight({ destinationId }) {
+
   return (
     <>
-      Flight
+      Flight to {destinationId}
     </>
   )
 }

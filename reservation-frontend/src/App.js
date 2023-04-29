@@ -8,6 +8,15 @@ import Hotel from './components/hotel/Hotel';
 import Payment from './components/payment/Payment';
 import './App.scss';
 
+/*
+  O destino da viagem deve vir via query string a partir
+  de link na página do catálogo.
+  
+  Estados que devem sobreviver a refreshes na página são
+  guardados em localStorage: o próprio destino e o usuário
+  logado.
+*/
+
 function readDestinationInput() {
   const query = queryString.parse(window.location.search);
 
@@ -20,6 +29,10 @@ function readDestinationInput() {
   }
 }
 
+function checkLoggedUser() {
+  return localStorage.getItem('user');
+}
+
 function Redirector({ user, children }) {
   return (
     user
@@ -30,7 +43,12 @@ function Redirector({ user, children }) {
 
 export default function App() {
   const destinationId = readDestinationInput();
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(checkLoggedUser());
+  
+  function storeUser(user) {
+    localStorage.setItem('user', user);
+    setUser(user);
+  }
 
   return (
     <div className="ReservationArea">
@@ -52,7 +70,7 @@ export default function App() {
               </Redirector>
             }/>
             <Route path="/login" element={
-              <Login onAuthenticated={setUser} />
+              <Login onAuthenticated={storeUser} />
             }/>
             <Route path="/flight" element={
               <Redirector user={user}>

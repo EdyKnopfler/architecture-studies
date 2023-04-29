@@ -3,7 +3,7 @@ export async function authenticate(email, password) {
     // Por enquanto simulamos um serviço
     setTimeout(() => {
       if (Math.random() < 0.2) {
-        return reject('Erro qualquer')
+        return reject('Erro qualquer');
       }
 
       if (email === 'derso@minhacasa.com' && password === '123456') {

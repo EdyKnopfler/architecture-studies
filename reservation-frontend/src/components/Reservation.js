@@ -34,7 +34,7 @@ export default function Reservation() {
           <Routes>
             <Route exact path="/" element={
               <Redirector user={user}>
-                <Flight />
+                <Navigate to="/flight" replace={true} />
               </Redirector>
             }/>
             <Route path="/login" element={

@@ -4,6 +4,11 @@
   padding: 1em;
   margin: 15% auto;
   width: 50%;
+
+  .loginError {
+    color: #C00;
+    font-weight: bold;
+  }
 }
 
 @media(max-width: 665px) {

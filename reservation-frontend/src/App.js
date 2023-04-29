@@ -6,6 +6,8 @@ import Login from './components/login/Login';
 import Flight from './components/flight/Flight';
 import Hotel from './components/hotel/Hotel';
 import Payment from './components/payment/Payment';
+import Logout from "./components/login/Logout";
+
 import './App.scss';
 
 /*
@@ -30,7 +32,7 @@ function readDestinationInput() {
 }
 
 function checkLoggedUser() {
-  return localStorage.getItem('user');
+  return JSON.parse(localStorage.getItem('user'));
 }
 
 function Redirector({ user, children }) {
@@ -46,7 +48,7 @@ export default function App() {
   const [user, setUser] = useState(checkLoggedUser());
   
   function storeUser(user) {
-    localStorage.setItem('user', user);
+    localStorage.setItem('user', JSON.stringify(user));
     setUser(user);
   }
 
@@ -59,6 +61,7 @@ export default function App() {
               <li><Link to="/flight">Voo</Link></li>
               <li><Link to="/hotel">Hotel</Link></li>
               <li><Link to="/payment">Pagamento</Link></li>
+              <li><Link to="/logout">Sair</Link></li>
             </ul>
           </nav>
         }
@@ -87,9 +90,12 @@ export default function App() {
                 <Payment />
               </Redirector>
             }/>
-            </Routes>
+            <Route path="/logout" element={
+              <Logout onUnauthenticated={() => storeUser(null)} />
+            }/>
+          </Routes>
         </section>
       </BrowserRouter>
     </div>
-  )
+  );
 }

@@ -5,3 +5,53 @@
 body {
   margin: 1em;
 }
+
+h1 {
+  margin-bottom: 1em;
+}
+
+h2, h3, h4, h5, h6 {
+  margin-bottom: 0.5em;
+}
+
+.formDiv {
+  margin: 0 auto;
+  width: 60%;
+
+  label {
+    display: block;
+    margin-bottom: 1em;
+
+    span {
+      display: block;
+      margin-bottom: 0.3em;
+    }
+
+    input {
+      display: block;
+      width: 100%;
+      border: 1px solid #AAA;
+      font-size: 1em;
+      padding: 0.3em;
+    }
+  }
+
+  .buttonsDiv {
+    text-align: center;
+
+    button {
+      border: 0px;
+      border-radius: 0;
+      font-size: 0.9em;
+      padding: 0.5em 1.5em;
+      color: white;
+      background: rgb(9, 9, 103);
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: rgb(53, 53, 194)
+    }
+  }
+}

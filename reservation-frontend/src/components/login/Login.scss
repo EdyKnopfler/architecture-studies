@@ -1,0 +1,25 @@
+.Login {
+  border: 1px solid #BBB;
+  border-radius: 10px;
+  padding: 1em;
+  margin: 15% auto;
+  width: 50%;
+}
+
+@media(max-width: 665px) {
+  .Login {
+    width: 85%;
+
+    h1 {
+      text-align: center;
+    }
+
+    .formDiv {
+      width: 90%;
+
+      input {
+        width: 95%;
+      }
+    }
+  }
+}

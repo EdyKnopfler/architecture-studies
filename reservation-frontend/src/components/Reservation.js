@@ -21,7 +21,7 @@ export default function Reservation() {
   return (
     <div className="Reservation">
       <BrowserRouter>
-        { user &&
+        {user &&
           <nav className="menu">
             <ul>
               <li><Link to="/flight">Voo</Link></li>

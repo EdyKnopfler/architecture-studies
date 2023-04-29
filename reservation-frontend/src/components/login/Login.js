@@ -39,15 +39,15 @@ export default function Login({ onAuthenticated }) {
   return (
     <div className="Login">
       <h1>Entre e garanta sua reserva</h1>
-      {loginResult === 'error' &&
-        <p className="loginError">
-          Serviço indisponível, aguarde uns instantes e tente novamente.
-        </p>
-      }
-      {loginResult === 'invalid' &&
-        <p className="loginError">Dados de login incorretos.</p>
-      }
       <form className="formDiv" onSubmit={doLogin}>
+        {loginResult === 'error' &&
+          <p className="loginError">
+            Serviço indisponível, aguarde uns instantes e tente novamente.
+          </p>
+        }
+        {loginResult === 'invalid' &&
+          <p className="loginError">Dados de login incorretos.</p>
+        }
         <label>
           <span>E-mail</span>
           <input

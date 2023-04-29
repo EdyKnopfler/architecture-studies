@@ -2,7 +2,7 @@ export async function authenticate(email, password) {
   return new Promise((resolve, reject) => {
     // Por enquanto simulamos um serviço
     setTimeout(() => {
-      if (Math.random() < 0.3) {
+      if (Math.random() < 0.2) {
         return reject('Erro qualquer')
       }
 

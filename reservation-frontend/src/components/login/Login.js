@@ -1,12 +1,12 @@
 import { useState } from 'react';
+import { Navigate } from 'react-router-dom';
 
 import { authenticate } from './loginService';
 import './Login.scss';
-import { Navigate } from 'react-router-dom';
 
 export default function Login({ onAuthenticated }) {
   const [isLoggingIn, setLoggingIn] = useState(false);
-  const [loginResult, setLoginResult] = useState({status: ''});
+  const [loginResult, setLoginResult] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -18,33 +18,33 @@ export default function Login({ onAuthenticated }) {
       const user = await authenticate(email, password);
 
       if (user) {
-        setLoginResult({status: 'ok'});
+        setLoginResult('ok');
         onAuthenticated(user);
       } else {
-        setLoginResult({status: 'invalid'});
+        setLoginResult('invalid');
       }
     } catch (error) {
       console.log(error);
-      setLoginResult({status: 'error'});
+      setLoginResult('error');
     }
     finally {
       setLoggingIn(false);
     }
   }
 
-  if (loginResult.status === 'ok') {
+  if (loginResult === 'ok') {
     return <Navigate to="/" replace={true} />
   }
 
   return (
     <div className="Login">
       <h1>Entre e garanta sua reserva</h1>
-      {loginResult.status === 'error' &&
+      {loginResult === 'error' &&
         <p className="loginError">
           Serviço indisponível, aguarde uns instantes e tente novamente.
         </p>
       }
-      {loginResult.status === 'invalid' &&
+      {loginResult === 'invalid' &&
         <p className="loginError">Dados de login incorretos.</p>
       }
       <form className="formDiv" onSubmit={doLogin}>

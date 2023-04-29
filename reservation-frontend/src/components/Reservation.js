@@ -21,13 +21,15 @@ export default function Reservation() {
   return (
     <div className="Reservation">
       <BrowserRouter>
-        <nav className="menu">
-          <ul>
-            <li><Link to="/flight">Voo</Link></li>
-            <li><Link to="/hotel">Hotel</Link></li>
-            <li><Link to="/payment">Pagamento</Link></li>
-          </ul>
-        </nav>
+        { user &&
+          <nav className="menu">
+            <ul>
+              <li><Link to="/flight">Voo</Link></li>
+              <li><Link to="/hotel">Hotel</Link></li>
+              <li><Link to="/payment">Pagamento</Link></li>
+            </ul>
+          </nav>
+        }
         <section>
           <Routes>
             <Route exact path="/" element={

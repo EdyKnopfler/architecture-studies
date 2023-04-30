@@ -24,7 +24,7 @@ export default function Login({ onAuthenticated }) {
         setLoginResult('invalid');
       }
     } catch (error) {
-      console.log(error);
+      console.log('Erro ao autenticar:', error);
       setLoginResult('error');
     }
     finally {

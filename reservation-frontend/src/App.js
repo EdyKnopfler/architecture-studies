@@ -1,6 +1,12 @@
-import { slide as Menu } from 'react-burger-menu';
-import { Navigate, BrowserRouter, Link, Routes, Route } from "react-router-dom";
 import { useState } from "react";
+import { slide as Menu } from 'react-burger-menu';
+import {
+  Navigate,
+  BrowserRouter,
+  Link,
+  Routes,
+  Route
+} from "react-router-dom";
 import queryString from 'query-string';
 
 import Login from './components/login/Login';
@@ -60,15 +66,20 @@ export default function App() {
         <header>
           {user &&
             <Menu>
-              <Link to="/flight">Voo</Link>
-              <Link to="/hotel">Hotel</Link>
-              <Link to="/payment">Pagamento</Link>
+              <a>{user.name}</a>
               <Link to="/logout">Sair</Link>
             </Menu>
           }
           <h1>Faça sua reserva!</h1>
         </header>
         <section>
+          {user &&
+            <nav>
+              <Link to="/flight">Voo</Link>
+              <Link to="/hotel">Hotel</Link>
+              <Link to="/payment">Pagamento</Link>
+            </nav>
+          }
           <Routes>
             <Route exact path="/" element={
               <Redirector user={user}>

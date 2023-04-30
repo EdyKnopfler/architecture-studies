@@ -7,7 +7,12 @@ import {
   Routes,
   Route
 } from "react-router-dom";
-import queryString from 'query-string';
+
+import {
+  readDestinationInput,
+  readLoggedUser,
+  saveLoggedUser
+} from "./persistentState";
 
 import Login from './components/login/Login';
 import Flight from './components/flight/Flight';
@@ -18,30 +23,6 @@ import Logout from "./components/login/Logout";
 import './App.scss';
 import './Sidebar.scss';
 
-/*
-  O destino da viagem deve vir via query string a partir
-  de link na página do catálogo.
-  
-  Estados que devem sobreviver a refreshes na página são
-  guardados em localStorage: o próprio destino e o usuário
-  logado.
-*/
-
-function readDestinationInput() {
-  const query = queryString.parse(window.location.search);
-
-  if (query.destinationId) {
-    let destinationId = query.destinationId;
-    localStorage.setItem('destinationId', destinationId);
-    return destinationId;
-  } else {
-    return localStorage.getItem('destinationId') || -1;
-  }
-}
-
-function checkLoggedUser() {
-  return JSON.parse(localStorage.getItem('user'));
-}
 
 function Redirector({ user, children }) {
   return (
@@ -53,10 +34,10 @@ function Redirector({ user, children }) {
 
 export default function App() {
   const destinationId = readDestinationInput();
-  const [user, setUser] = useState(checkLoggedUser());
+  const [user, setUser] = useState(readLoggedUser());
   
   function storeUser(user) {
-    localStorage.setItem('user', JSON.stringify(user));
+    saveLoggedUser(user);
     setUser(user);
   }
 

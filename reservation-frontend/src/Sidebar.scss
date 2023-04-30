@@ -1,0 +1,90 @@
+/*
+  Ref.: documentação do react-burger-menu
+  https://www.npmjs.com/package/react-burger-menu
+*/
+
+/* Botão hambúrguer */
+.bm-burger-button {
+  position: fixed;
+  width: 36px;
+  height: 30px;
+  left: 15px;
+  top: 27px;
+}
+
+/* Cores do botão */
+.bm-burger-bars {
+  background: #373a47;
+}
+
+.bm-burger-bars-hover {
+  background: #a90000;
+}
+
+/* Botão de fechar */
+.bm-cross-button {
+  height: 24px;
+  width: 24px;
+}
+
+.bm-cross {
+  background: #bdc3c7;
+}
+
+/* Área do menu */ 
+.bm-menu-wrap {
+  /* mudar esta classe pode quebrar as animações! */
+  position: fixed;
+  height: 100%;
+
+  /* mas mudei mesmo assim! */
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 50% !important;
+  max-width: 250px;
+}
+
+.bm-menu {
+  background: #373a47;
+  padding-top: 2.5em;
+  font-size: 1.15em;
+}
+
+/* 
+  Usado por alguns efeitos, como bubble ou elastic.
+  Selecionado "slide" no import do componente:
+
+  import { slide as Menu } from 'react-burger-menu';
+*/
+.bm-morph-shape {
+  fill: #373a47;
+}
+
+/* Lista de itens criada */
+.bm-item-list {
+  color: #b8b7ad;
+  padding: 0 0.8em;
+}
+
+/* Item individual */
+.bm-item {
+  /* a doc recomendou isto porém é inserido "block" no style de cada item */
+  display: inline-block;
+
+  /* aqui sou eu customizando */
+  padding: 0.8em 0.5em;
+  color: white;
+  border-bottom: 1px solid #CCC;
+  text-decoration: none;
+}
+
+/* Tapa-tela */
+.bm-overlay {
+  background: rgba(0, 0, 0, 0.3);
+
+  /* ajustando ao meu layout */
+  position: absolute;
+  top: 0;
+  left: 0;
+}

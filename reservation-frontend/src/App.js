@@ -1,3 +1,4 @@
+import { slide as Menu } from 'react-burger-menu';
 import { Navigate, BrowserRouter, Link, Routes, Route } from "react-router-dom";
 import { useState } from "react";
 import queryString from 'query-string';
@@ -9,6 +10,7 @@ import Payment from './components/payment/Payment';
 import Logout from "./components/login/Logout";
 
 import './App.scss';
+import './Sidebar.scss';
 
 /*
   O destino da viagem deve vir via query string a partir
@@ -55,16 +57,17 @@ export default function App() {
   return (
     <div className="ReservationArea">
       <BrowserRouter>
-        {user &&
-          <nav className="menu">
-            <ul>
-              <li><Link to="/flight">Voo</Link></li>
-              <li><Link to="/hotel">Hotel</Link></li>
-              <li><Link to="/payment">Pagamento</Link></li>
-              <li><Link to="/logout">Sair</Link></li>
-            </ul>
-          </nav>
-        }
+        <header>
+          {user &&
+            <Menu>
+              <Link to="/flight">Voo</Link>
+              <Link to="/hotel">Hotel</Link>
+              <Link to="/payment">Pagamento</Link>
+              <Link to="/logout">Sair</Link>
+            </Menu>
+          }
+          <h1>Faça sua reserva!</h1>
+        </header>
         <section>
           <Routes>
             <Route exact path="/" element={

@@ -1,0 +1,34 @@
+.StepNavigator {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1em;
+
+  a, span {
+    display: block;
+    width: 15%;
+    padding: 0.5em 1.5em;
+    border: 0px;
+    font-size: 0.9em;
+    font-weight: bold;
+    text-decoration: none;
+    text-align: center;
+  }
+
+  a {
+    color: white;
+    background: rgb(255, 152, 152);
+  }
+
+  span {
+    color: rgb(19, 19, 129);
+  }
+}
+
+@media(max-width: 650px) {
+  .StepNavigator {
+    a, span {
+      width: 28%;
+      padding: 0.5em;
+    }
+  }
+}

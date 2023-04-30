@@ -23,7 +23,6 @@ import Logout from "./components/login/Logout";
 import './App.scss';
 import './Sidebar.scss';
 
-
 function Redirector({ user, children }) {
   return (
     user
@@ -47,20 +46,16 @@ export default function App() {
         <header>
           {user &&
             <Menu>
-              <a>{user.name}</a>
+              {
+                // eslint-disable-next-line
+                <a>{user.name}</a>
+              }
               <Link to="/logout">Sair</Link>
             </Menu>
           }
           <h1>Faça sua reserva!</h1>
         </header>
         <section>
-          {user &&
-            <nav>
-              <Link to="/flight">Voo</Link>
-              <Link to="/hotel">Hotel</Link>
-              <Link to="/payment">Pagamento</Link>
-            </nav>
-          }
           <Routes>
             <Route exact path="/" element={
               <Redirector user={user}>

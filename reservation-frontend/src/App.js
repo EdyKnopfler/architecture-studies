@@ -31,8 +31,7 @@ export default function App() {
       try {
         const data = await fetchDestinationData(destinationId);
         setDestinationData(data);
-      }
-      catch (error) {
+      } catch (error) {
         console.log('Erro ao carregar dados:', error);
       }
     }

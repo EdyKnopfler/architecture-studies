@@ -15,5 +15,5 @@ export async function authenticate(email, password) {
         resolve();
       }
     }, 1000);
-  })
+  });
 }

@@ -1,5 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { BrowserRouter } from "react-router-dom";
+
+import { fetchDestinationData } from "./destinationService";
 
 import {
   readDestinationInput,
@@ -14,8 +16,30 @@ import './App.scss';
 
 export default function App() {
   const destinationId = readDestinationInput();
+
+  const [destinationData, setDestinationData] = useState({
+    id: destinationId,
+    name: '',
+    descritpion: '',
+    imageUrl: ''
+  });
+
   const [user, setUser] = useState(readLoggedUser());
-  
+
+  useEffect(() => {
+    async function getData() {
+      try {
+        const data = await fetchDestinationData(destinationId);
+        setDestinationData(data);
+      }
+      catch (error) {
+        console.log('Erro ao carregar dados:', error);
+      }
+    }
+
+    getData();
+  }, [destinationId]);
+
   function storeUser(user) {
     saveLoggedUser(user);
     setUser(user);
@@ -24,10 +48,10 @@ export default function App() {
   return (
     <div className="ReservationArea">
       <BrowserRouter>
-        <PageHeader user={user} />
+        <PageHeader destinationData={destinationData} user={user} />
         <section>
           <MainSection
-            destinationId={destinationId}
+            destinationData={destinationData}
             user={user}
             storeUser={storeUser} />
         </section>

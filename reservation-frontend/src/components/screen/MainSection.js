@@ -14,7 +14,7 @@ function Redirector({ user, children }) {
   );
 }
 
-export default function MainSection({ destinationId, user, storeUser }) {
+export default function MainSection({ destinationData, user, storeUser }) {
   return (
     <>
       <Routes>
@@ -28,7 +28,7 @@ export default function MainSection({ destinationId, user, storeUser }) {
         }/>
         <Route path="/flight" element={
           <Redirector user={user}>
-            <Flight destinationId={destinationId} />
+            <Flight destinationData={destinationData} />
           </Redirector>
         }/>
         <Route path="/hotel" element={

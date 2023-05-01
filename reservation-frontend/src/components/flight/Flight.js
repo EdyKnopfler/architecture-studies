@@ -1,11 +1,11 @@
 import StepNavigator from "../stepNavigator/StepNavigator";
 
-export default function Flight({ destinationId }) {
+export default function Flight({ destinationData }) {
 
   return (
     <>
       <StepNavigator step="flight" />
-      Flight to {destinationId}
+      Voo para {destinationData.name} ({destinationData.id})
     </>
   )
 }

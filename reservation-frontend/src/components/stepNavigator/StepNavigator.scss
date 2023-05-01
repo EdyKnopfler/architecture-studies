@@ -1,12 +1,21 @@
 .StepNavigator {
+  /*
   display: flex;
   justify-content: space-between;
+  */
   margin-bottom: 1em;
 
   a, span {
     display: block;
+    float: left;
+    width: 46%;
+    margin: 1%;
+    padding: 0.5em;
+
+    /*
     width: 15%;
     padding: 0.5em 1.5em;
+    */
     border: 0px;
     font-size: 0.9em;
     font-weight: bold;
@@ -24,11 +33,26 @@
   }
 }
 
-@media(max-width: 650px) {
+@media(max-width: 748px) {
   .StepNavigator {
     a, span {
-      width: 28%;
-      padding: 0.5em;
+      width: 45%;
+    }
+  }
+}
+
+@media(max-width: 509px) {
+  .StepNavigator {
+    a, span {
+      width: 44%;
+    }
+  }
+}
+
+@media(max-width: 390px) {
+  .StepNavigator {
+    a, span {
+      width: 95%;
     }
   }
 }

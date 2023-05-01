@@ -4,21 +4,26 @@ import './StepNavigator.scss';
 
 export default function StepNavigator({ step }) {
   return (
-    <nav className="StepNavigator">
+    <nav className="StepNavigator clearFix">
       {
-        step === 'flight'
-          ? <span>1.Voo</span>
-          : <Link to="/flight">1. Voo</Link>
+        step === 'going'
+          ? <span>1. Voo (ida)</span>
+          : <Link to="/flightGoing">1. Voo (ida)</Link>
+      }
+      {
+        step === 'returning'
+          ? <span>2. Voo (volta)</span>
+          : <Link to="/flightReturning">2. Voo (volta)</Link>
       }
       {
         step === 'hotel'
-          ? <span>2. Hotel</span>
-          : <Link to="/hotel">2. Hotel</Link>
+          ? <span>3. Hotel</span>
+          : <Link to="/hotel">3. Hotel</Link>
       }
       {
         step === 'payment'
-          ? <span>3. Pagamento</span>
-          : <Link to="/payment">3. Pagamento</Link>
+          ? <span>4. Pagamento</span>
+          : <Link to="/payment">4. Pagamento</Link>
       }
     </nav>
   );

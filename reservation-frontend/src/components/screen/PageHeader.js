@@ -19,15 +19,17 @@ export default function PageHeader({ user, destinationData }) {
         }
         <h1>Faça sua reserva!</h1>
       </header>
-      <section className="destinationSection clearFix">
-        <section className="textContent">
-          <h2>{destinationData.name}</h2>
-          <p>{destinationData.description}</p>
+      {user &&
+        <section className="destinationSection clearFix">
+          <section className="textContent">
+            <h2>{destinationData.name}</h2>
+            <p>{destinationData.description}</p>
+          </section>
+          <img
+            alt={destinationData.name}
+            src={destinationData.imageUrl} />
         </section>
-        <img
-          alt={destinationData.name}
-          src={destinationData.imageUrl} />
-      </section>
+      }
     </>
   );
 }

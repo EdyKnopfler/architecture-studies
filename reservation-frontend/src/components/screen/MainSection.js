@@ -20,15 +20,20 @@ export default function MainSection({ destinationData, user, storeUser }) {
       <Routes>
         <Route exact path="/" element={
           <Redirector user={user}>
-            <Navigate to="/flight" replace={true} />
+            <Navigate to="/flightGoing" replace={true} />
           </Redirector>
         }/>
         <Route path="/login" element={
           <Login onAuthenticated={storeUser} />
         }/>
-        <Route path="/flight" element={
+        <Route path="/flightGoing" element={
           <Redirector user={user}>
-            <Flight destinationData={destinationData} />
+            <Flight destinationData={destinationData} step="going" />
+          </Redirector>
+        }/>
+        <Route path="/flightReturning" element={
+          <Redirector user={user}>
+            <Flight destinationData={destinationData} step="returning" />
           </Redirector>
         }/>
         <Route path="/hotel" element={

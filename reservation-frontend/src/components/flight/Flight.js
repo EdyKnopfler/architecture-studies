@@ -5,9 +5,11 @@ export default function Flight({ destinationData, step }) {
   return (
     <>
       <StepNavigator step={step} />
-      Voo para {destinationData.name} ({destinationData.id})
-      -
-      {step === 'going' ? ' IDA' : ' VOLTA'}
+      <h1>
+        Voo para {destinationData.name}
+        {' - '}
+        {step === 'going' ? 'IDA' : 'VOLTA'}
+      </h1>
     </>
   )
 }

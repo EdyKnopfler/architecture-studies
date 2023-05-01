@@ -1,6 +1,8 @@
 import { slide as Menu } from 'react-burger-menu';
 import { Link } from 'react-router-dom';
 
+import './Sidebar.scss';
+
 export default function PageHeader({ user }) {
   return (
     <>

@@ -11,7 +11,6 @@ import PageHeader from "./components/screen/PageHeader";
 import MainSection from "./components/screen/MainSection";
 
 import './App.scss';
-import './Sidebar.scss';
 
 export default function App() {
   const destinationId = readDestinationInput();

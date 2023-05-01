@@ -1,0 +1,35 @@
+.PageHeader {
+  padding: 0.5em;
+  margin-bottom: 1.5em;
+  border-bottom: 1px solid wheat;
+
+  h1 {
+    margin: 0;
+    margin-left: 40px;
+  }
+}
+
+.destinationSection {
+  img {
+    width: 50%;
+    display: block;
+    margin: auto;
+  }
+
+  margin-bottom: 1.5em;
+}
+
+@media(min-width: 500px) {
+  .destinationSection {
+    .textContent {
+      float: left;
+      width: 75%;
+    }
+
+    img {
+      float: right;
+      width: 20%;
+    }
+
+  }
+}

@@ -24,9 +24,7 @@ export default function App() {
   return (
     <div className="ReservationArea">
       <BrowserRouter>
-        <header>
-          <PageHeader user={user} />
-        </header>
+        <PageHeader user={user} />
         <section>
           <MainSection
             destinationId={destinationId}

@@ -1,8 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import './WeekSelector.scss';
 
-function incrementDaysTo(date, days) {
+export function incrementDaysTo(date, days) {
   const newDate = new Date(date);
   newDate.setDate(newDate.getDate() + days);
   return newDate;
@@ -27,8 +27,12 @@ function formatDate(date) {
   );
 }
 
-export default function WeekSelector({ refDate, onWeekSelected }) {
+export function WeekSelector({ refDate, onWeekSelected }) {
   const [weekStart, setWeekStart] = useState(weekRefSunday(refDate));
+
+  useEffect(() => {
+    onWeekSelected(weekStart);
+  }, []);
   
   function changeWeek(increment) {
     const newWeekStart = incrementDaysTo(weekStart, increment);

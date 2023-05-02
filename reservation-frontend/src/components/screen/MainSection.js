@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Navigate, Routes, Route } from 'react-router-dom';
 
 import Login from '../login/Login';
@@ -15,6 +16,10 @@ function Redirector({ user, children }) {
 }
 
 export default function MainSection({ destinationData, user, storeUser }) {
+  const [reservationState, setReservationState] = useState({
+    
+  });
+
   return (
     <>
       <Routes>

@@ -1,0 +1,21 @@
+.ScheduleMatrix {
+  margin-bottom: 1em;
+  font-size: 1em;
+  overflow-x: auto;
+  white-space: nowrap;
+
+  td {
+    width: 36em;
+    height: 36px;
+    text-align: center;
+    margin: 0 10px;
+  }
+
+  td.unavailable {
+    background: rgb(255, 177, 177);
+  }
+
+  td.available {
+    background: rgb(172, 224, 172);
+  }
+}

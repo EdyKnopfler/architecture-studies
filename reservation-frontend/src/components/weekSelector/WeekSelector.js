@@ -32,7 +32,7 @@ export function WeekSelector({ refDate, onWeekSelected }) {
 
   useEffect(() => {
     onWeekSelected(weekStart);
-  }, []);
+  });
   
   function changeWeek(increment) {
     const newWeekStart = incrementDaysTo(weekStart, increment);

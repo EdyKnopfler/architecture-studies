@@ -15,9 +15,7 @@ export default function Flight({ destinationData, step }) {
         {step === 'going' ? 'IDA' : 'VOLTA'}
       </h1>
       <WeekSelector refDate={new Date()} onWeekSelected={setWeekStart} />
-      {for (let i = 0; i < 7; i++) {
-        
-      }}
+      
     </>
   )
 }

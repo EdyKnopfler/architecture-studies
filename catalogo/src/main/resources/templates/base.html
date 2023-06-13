@@ -1,0 +1,12 @@
+<!-- 
+    Fragmento: nome[(parametro, ...)]
+-->
+<head th:fragment="head(titulo_pagina)">
+    <meta charset="UTF-8">
+    <!-- 
+        th:text: preenchimento de conteúdo usando a Expression Language
+        permite usar os parâmetros :) 
+    -->
+    <title th:text="'Agência de viagens - CATÁLOGO | ' + ${titulo_pagina}">titulo</title>
+    <link rel="stylesheet" href="/static/style.css" type="text/css">
+</head>

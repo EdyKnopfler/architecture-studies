@@ -8,8 +8,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.derso.viagens.catalogo.autenticacao.AutenticacaoService;
 import com.derso.viagens.catalogo.domain.Cliente;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 
 /*
@@ -23,6 +25,9 @@ public class ClienteController {
 	
 	@Autowired
 	private ClientesRepositorio repositorio;
+	
+	@Autowired
+	private AutenticacaoService autenticacao;
 	
 	@GetMapping("/")
 	public String home() {
@@ -51,7 +56,8 @@ public class ClienteController {
 	 */
 	@PostMapping("/cadastro-de-cliente")
 	public String salvarCliente(
-			@Valid Cliente cliente, BindingResult result, RedirectAttributes redirect) {
+			@Valid Cliente cliente, BindingResult result, RedirectAttributes redirect,
+			HttpServletRequest request) {
 		
 		if (result.hasErrors()) {
 			redirect.addFlashAttribute("cliente", cliente);
@@ -60,7 +66,8 @@ public class ClienteController {
 		}
 		
 		repositorio.save(cliente);
-		return "redirect:/";
+		autenticacao.fazerLoginAutomatico(cliente, request);
+		return "redirect:/area-do-cliente";
 	}
 	
 	@GetMapping("/area-do-cliente")

@@ -1,4 +1,4 @@
-package com.derso.viagens.catalogo.config;
+package com.derso.viagens.catalogo.autenticacao;
 
 import static org.springframework.security.web.util.matcher.AntPathRequestMatcher.antMatcher;
 

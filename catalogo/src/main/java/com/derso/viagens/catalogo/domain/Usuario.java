@@ -1,5 +1,7 @@
 package com.derso.viagens.catalogo.domain;
 
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -73,6 +75,17 @@ public abstract class Usuario {
 		this.senhaCriptografada = encoder.encode(senha);
 	}
 	
-	public abstract String[] getPapeis();
+	public UserDetails toUserDetails() {
+		// Isto é um acoplamento com o framework? É.
+		// Mas não gosto de quebrar demais as coisas e ficar com milhões de pedacinhos granulados.
+		// Faria a separação se esta classe crescesse demais e ficasse complexa.
+		return User.builder()
+				.username(email)
+				.password("{bcrypt}" + senhaCriptografada)
+				.roles(getPapeis())
+				.build();
+	}
 
+	public abstract String[] getPapeis();
+	
 }

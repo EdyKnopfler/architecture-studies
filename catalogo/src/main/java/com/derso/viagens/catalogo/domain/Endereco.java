@@ -6,6 +6,8 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import lombok.Getter;
+import lombok.Setter;
 
 /*
  * Esta classe abre espaço para outras tarefas como pesquisa de CEP e geocoding,
@@ -14,6 +16,8 @@ import jakarta.validation.constraints.Size;
 
 // Componente de entidade (não cria a própria tabela)
 @Embeddable
+@Getter
+@Setter
 public class Endereco {
 	
 	@Column(length = 8, nullable = false)

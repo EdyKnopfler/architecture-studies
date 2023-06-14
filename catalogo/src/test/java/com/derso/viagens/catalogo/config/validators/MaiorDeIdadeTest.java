@@ -11,6 +11,11 @@ public class MaiorDeIdadeTest {
 	private MaiorDeIdadeValidator validador = new MaiorDeIdadeValidator();
 	
 	@Test
+	public void dataNulaEhValidaDeixamosParaOArrobaNotNull() {
+		assertTrue(validador.isValid(null, null));
+	}
+	
+	@Test
 	public void alguemMaiorDeIdade() {
 		LocalDate dataNascimento = LocalDate.of(1955, 8, 4);
 		assertTrue(validador.isValid(dataNascimento, null));

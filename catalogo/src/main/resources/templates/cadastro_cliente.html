@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+
+<!-- Usando fragmento: arquivo base.html, fragmento head -->
+<head th:replace="~{base :: head('Cadastro de cliente')}">
+</head>
+
+<body>
+    <h1>Cadastro de cliente</h1>
+    <form th:replace="~{form_cliente :: form(${cliente})}">
+    </form>
+</body>
+
+</html>

@@ -14,3 +14,8 @@ h3, h4, h5, h6,
 p, div.campo-form {
 	margin-bottom: 0.5em;
 }
+
+ul.erros-validacao li {
+	color: #C00;
+	margin-left: 1.5em;
+}

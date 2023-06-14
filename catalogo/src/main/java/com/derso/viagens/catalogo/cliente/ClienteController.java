@@ -56,7 +56,9 @@ public class ClienteController {
 	 */
 	@PostMapping("/cadastro-de-cliente")
 	public String salvarCliente(
-			@Valid Cliente cliente, BindingResult result, RedirectAttributes redirect,
+			@Valid Cliente cliente,
+			BindingResult result,
+			RedirectAttributes redirect,
 			HttpServletRequest request) {
 		
 		if (result.hasErrors()) {

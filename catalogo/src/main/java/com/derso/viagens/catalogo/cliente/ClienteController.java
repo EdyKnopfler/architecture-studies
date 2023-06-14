@@ -1,7 +1,16 @@
 package com.derso.viagens.catalogo.cliente;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import com.derso.viagens.catalogo.domain.Cliente;
+
+import jakarta.validation.Valid;
 
 /*
  * CONTROLLER PADRÃO
@@ -12,9 +21,46 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class ClienteController {
 	
+	@Autowired
+	private ClientesRepositorio repositorio;
+	
 	@GetMapping("/")
 	public String home() {
 		return "home";  // home.html
+	}
+	
+	/*
+	 * Ping-pong entre o formulário e o POST ----------------------------------------------
+	 * 
+	 * Se o objeto que chega no POST é inválido, deve redirecionar de volta passando os dados.
+	 * Conseguimos isto através do RedirectAttributes.
+	 * 
+	 * No GET vemos se há um objeto no Model, significando que foi redirecionado do POST
+	 */
+	@GetMapping("/cadastro-de-cliente")
+	public String cadastroCliente(Model model) {
+		if (model.getAttribute("cliente") == null) {
+			model.addAttribute("cliente", new Cliente());
+		}
+		return "cadastro_cliente";
+	}
+	
+	/*
+	 * O BindingResult captura os erros de validação, permitindo tratá-los.
+	 * Ex.: https://cursos.alura.com.br/forum/topico-bean-validation-valid-e-bindingresult-162657
+	 */
+	@PostMapping("/cadastro-de-cliente")
+	public String salvarCliente(
+			@Valid Cliente cliente, BindingResult result, RedirectAttributes redirect) {
+		
+		if (result.hasErrors()) {
+			redirect.addFlashAttribute("cliente", cliente);
+			redirect.addFlashAttribute("erros", result.getAllErrors());
+			return "redirect:/cadastro-de-cliente";
+		}
+		
+		repositorio.save(cliente);
+		return "redirect:/";
 	}
 	
 	@GetMapping("/area-do-cliente")

@@ -47,7 +47,7 @@ public class ClientesController {
 		if (model.getAttribute("cliente") == null) {
 			model.addAttribute("cliente", new Cliente());
 		}
-		return "cadastro_cliente";
+		return "clientes/form_cliente";
 	}
 	
 	/*
@@ -74,7 +74,7 @@ public class ClientesController {
 	
 	@GetMapping("/area-do-cliente")
 	public String areaDoCliente() {
-		return "area-do-cliente";
+		return "clientes/area_do_cliente";
 	}
 
 }

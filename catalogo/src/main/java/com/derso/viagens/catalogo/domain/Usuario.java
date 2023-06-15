@@ -12,9 +12,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
-import jakarta.persistence.Transient;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -51,19 +48,10 @@ public abstract class Usuario {
 	private Long id;
 	
 	@Column(length = 100, nullable = false)
-	@NotEmpty(message = "O campo Nome é obrigatório")
-	@Size(max = 100, message = "Comprimento máximo do nome: 100")
 	private String nome;
 	
 	@Column(length = 100, nullable = false, unique = true)
-	@NotEmpty(message = "O campo E-mail é obrigatório")
-	@Size(max = 100, message = "Comprimento máximo do e-mail: 100")
 	private String email;
-	
-	@Transient
-	@NotEmpty(message = "O campo Senha é obrigatório")
-	@Size(max = 50, message = "Comprimento máximo da senha: 50")
-	private String senha;
 	
 	@Column(length = 60, nullable = false)
 	private String senhaCriptografada;
@@ -71,7 +59,6 @@ public abstract class Usuario {
 	public void setSenha(String senha) {
 		// REGRA DE NEGÓCIO aqui
 		// Criptografia da senha
-		this.senha = senha;
 		this.senhaCriptografada = encoder.encode(senha);
 	}
 	

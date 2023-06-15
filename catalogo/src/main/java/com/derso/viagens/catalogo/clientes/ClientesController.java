@@ -45,7 +45,7 @@ public class ClientesController {
 	@GetMapping("/cadastro-de-cliente")
 	public String cadastroCliente(Model model) {
 		if (model.getAttribute("cliente") == null) {
-			model.addAttribute("cliente", new Cliente());
+			model.addAttribute("cliente", new ClienteDTO());
 		}
 		return "clientes/form_cliente";
 	}
@@ -56,17 +56,18 @@ public class ClientesController {
 	 */
 	@PostMapping("/cadastro-de-cliente")
 	public String salvarCliente(
-			@Valid Cliente cliente,
+			@Valid ClienteDTO clienteDto,
 			BindingResult result,
 			RedirectAttributes redirect,
 			HttpServletRequest request) {
 		
 		if (result.hasErrors()) {
-			redirect.addFlashAttribute("cliente", cliente);
+			redirect.addFlashAttribute("cliente", clienteDto);
 			redirect.addFlashAttribute("erros", result.getAllErrors());
 			return "redirect:/cadastro-de-cliente";
 		}
 		
+		Cliente cliente = clienteDto.criar();
 		repositorio.save(cliente);
 		autenticacao.fazerLoginAutomatico(cliente, request);
 		return "redirect:/area-do-cliente";

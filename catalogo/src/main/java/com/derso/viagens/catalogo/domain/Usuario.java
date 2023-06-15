@@ -55,7 +55,7 @@ public abstract class Usuario {
 	@Size(max = 100, message = "Comprimento máximo do nome: 100")
 	private String nome;
 	
-	@Column(length = 100, nullable = false)
+	@Column(length = 100, nullable = false, unique = true)
 	@NotEmpty(message = "O campo E-mail é obrigatório")
 	@Size(max = 100, message = "Comprimento máximo do e-mail: 100")
 	private String email;

@@ -14,6 +14,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.derso.viagens.catalogo.domain.Administrador;
 
+import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 
 @Controller
@@ -56,6 +57,7 @@ public class AdministradoresController {
 	}
 	
 	@PostMapping("/admin/salvar")
+	@Transactional
 	public String salvarAdministrador(
 			@Valid Administrador administrador,
 			BindingResult result,
@@ -78,6 +80,7 @@ public class AdministradoresController {
 	}
 	
 	@DeleteMapping("/admin/delete-admin/{id}")
+	@Transactional
 	public String apagarAdministrador(@PathVariable long id) {
 		repositorio.deleteById(id);
 		return "redirect:/admin/administradores";

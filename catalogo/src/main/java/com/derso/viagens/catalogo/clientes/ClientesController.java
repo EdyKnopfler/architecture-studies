@@ -12,6 +12,7 @@ import com.derso.viagens.catalogo.autenticacao.AutenticacaoService;
 import com.derso.viagens.catalogo.domain.Cliente;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 
 /*
@@ -62,6 +63,7 @@ public class ClientesController {
 	 * Ex.: https://cursos.alura.com.br/forum/topico-bean-validation-valid-e-bindingresult-162657
 	 */
 	@PostMapping("/cadastro-de-cliente")
+	@Transactional
 	public String salvarCliente(
 			@Valid ClienteDTO clienteDto,
 			BindingResult result,

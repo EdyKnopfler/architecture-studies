@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+
+<!-- Usando fragmento: arquivo base.html, fragmento head -->
+<head th:replace="~{base :: head('Cadastro de administrador')}">
+</head>
+
+<body>
+    <h1>Cadastro de administrador</h1>
+    
+    <form 
+	    th:action="@{/admin/salvar}"
+	    th:object="${administrador}"
+	    method="post"
+	>
+        <input type="hidden" th:field="*{id}">
+	
+		<ul class="erros-validacao">
+	        <li th:each="erro: ${erros}" th:text="${erro.defaultMessage}">Erro</li>
+	    </ul>
+	    
+	    <!-- TODO refatorar nome, e-mail, senha para uma área comum -->
+	    <div class="campo-form">
+	        <label for="nome">Nome:</label> <br>
+	        <input type="text" th:field="*{nome}">
+	    </div>
+	    
+	    <div class="campo-form">
+	        <label for="email">E-mail:</label> <br>
+	        <input type="email" th:field="*{email}">
+	    </div>
+	    
+	    <div class="campo-form">
+	        <label for="senha">Senha:</label> <br>
+	        <input type="password" th:field="*{senha}">
+	    </div>
+	    
+	    <div class="campo-form">
+	        <button>Cadastrar</button>
+	    </div>
+	</form>
+</body>
+
+</html>

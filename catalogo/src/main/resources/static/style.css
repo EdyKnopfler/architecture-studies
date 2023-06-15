@@ -19,3 +19,17 @@ ul.erros-validacao li {
 	color: #C00;
 	margin-left: 1.5em;
 }
+
+form.link-delete {
+	display: inline;
+}
+
+button.aspecto-de-link {
+  background: none!important;
+  border: none;
+  padding: 0!important;
+  color: #C00;
+  text-decoration: underline;
+  cursor: pointer;
+  font-size: 1em;
+}

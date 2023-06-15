@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+
+<!-- Usando fragmento: arquivo base.html, fragmento head -->
+<head th:replace="~{base :: head('Cadastro de administrador')}">
+</head>
+
+<body>
+    <h1>Administradores</h1>
+    
+    <p>
+        <a th:href="@{/admin/novo-admin}">Novo</a>
+    </p>
+    
+    <ul>
+        <li th:each="admin: ${administradores}">
+            <span th:text="${admin.nome}">nome</span>
+            <em>(<span th:text="${admin.email}">e-mail</span>)</em>
+            
+            <!-- URL com parâmetro no path -->
+            <a th:href="@{/admin/editar-admin/{id}(id = ${admin.id})}">Editar</a>
+            
+            <!-- Formulário com redefinição do método HTTP -->
+            <form 
+                class="link-delete" 
+                th:object="${admin}" 
+                th:action="@{/admin/delete-admin/{id}(id = ${admin.id})}" 
+                th:method="delete"
+                onsubmit="return confirm('Tem certeza?');"
+            >
+                <button class="aspecto-de-link">Apagar</button>
+            </form>
+        </li>
+    </ul>    
+</body>
+
+</html>

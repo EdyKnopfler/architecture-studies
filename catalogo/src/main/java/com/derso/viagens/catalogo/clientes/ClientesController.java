@@ -1,4 +1,4 @@
-package com.derso.viagens.catalogo.cliente;
+package com.derso.viagens.catalogo.clientes;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,7 +21,7 @@ import jakarta.validation.Valid;
  */
 
 @Controller
-public class ClienteController {
+public class ClientesController {
 	
 	@Autowired
 	private ClientesRepositorio repositorio;

@@ -1,4 +1,4 @@
-package com.derso.viagens.catalogo.cliente;
+package com.derso.viagens.catalogo.clientes;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

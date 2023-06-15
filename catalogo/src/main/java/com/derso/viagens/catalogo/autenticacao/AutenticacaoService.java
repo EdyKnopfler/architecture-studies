@@ -1,7 +1,9 @@
 package com.derso.viagens.catalogo.autenticacao;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -36,6 +38,17 @@ public class AutenticacaoService implements UserDetailsService {
 		
 		HttpSession session = request.getSession(true);
         session.setAttribute("SPRING_SECURITY_CONTEXT", securityContext);
+	}
+	
+	public String usuarioLogado() {
+		Authentication usuario = 
+				SecurityContextHolder.getContext().getAuthentication();
+		
+		if (!(usuario instanceof AnonymousAuthenticationToken)) {
+			return usuario.getName();
+		}
+		
+		return null;
 	}
 
 	@Override

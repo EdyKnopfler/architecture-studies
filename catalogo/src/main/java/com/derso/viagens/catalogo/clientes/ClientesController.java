@@ -45,7 +45,14 @@ public class ClientesController {
 	@GetMapping("/cadastro-de-cliente")
 	public String cadastroCliente(Model model) {
 		if (model.getAttribute("cliente") == null) {
-			model.addAttribute("cliente", new ClienteDTO());
+			String usuarioLogado = autenticacao.usuarioLogado();
+			
+			if (usuarioLogado != null) {
+				Cliente cliente = repositorio.findByEmail(usuarioLogado).get();
+				model.addAttribute("cliente", ClienteDTO.criarDe(cliente));
+			} else {
+				model.addAttribute("cliente", new ClienteDTO());
+			}
 		}
 		return "clientes/form_cliente";
 	}
@@ -68,6 +75,26 @@ public class ClientesController {
 		}
 		
 		Cliente cliente = clienteDto.criar();
+		String usuarioLogado = autenticacao.usuarioLogado();
+		
+		if (usuarioLogado != null) {
+			// Tem forma mais eficiente de resolver isto, que era criando um derivado
+			// de UserDetails que já incluísse o id do usuário.
+			// (fica para depois... :D)
+			
+			Cliente existente = repositorio.findByEmail(usuarioLogado).get();
+			
+			// Ainda há questões a serem tratadas, como a necessidade de recadastrar a senha
+			// durante a edição (o database não guarda a senha "raw").
+			// Como modelo de CRUD comum, está bom. Neste caso específico, teríamos que tratar
+			// de forma separada a criação e a alteração.
+			if (clienteDto.getSenha().trim().equals("")) {
+				cliente.setSenhaCriptografada(existente.getSenhaCriptografada());
+			}
+			
+			cliente.setId(existente.getId());
+		}
+		
 		repositorio.save(cliente);
 		autenticacao.fazerLoginAutomatico(cliente, request);
 		return "redirect:/area-do-cliente";

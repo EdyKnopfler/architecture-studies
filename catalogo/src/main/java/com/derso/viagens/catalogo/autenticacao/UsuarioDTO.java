@@ -25,11 +25,17 @@ public class UsuarioDTO {
 	@Size(max = 50, message = "Comprimento máximo da senha: 50")
 	private String senha;
 	
-	public static void preencher(UsuarioDTO dto, Usuario usuario) {
+	public static void preencherUsuario(Usuario usuario, UsuarioDTO dto) {
 		usuario.setId(dto.getId());
 		usuario.setNome(dto.getNome());
 		usuario.setEmail(dto.getEmail());
 		usuario.setSenha(dto.getSenha());
+	}
+	
+	public static void preencherDTO(UsuarioDTO dto, Usuario usuario) {
+		dto.setId(usuario.getId());
+		dto.setNome(usuario.getNome());
+		dto.setEmail(usuario.getEmail());
 	}
 
 }

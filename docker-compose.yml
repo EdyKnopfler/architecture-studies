@@ -1,0 +1,33 @@
+version: '3'
+
+services:
+  db:
+    container_name: db_mysql
+    image: mysql:8.0.33
+    environment:
+      - MYSQL_ROOT_PASSWORD=root_dev
+      - MYSQL_USER=dev
+      - MYSQL_PASSWORD=dev
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./db:/var/lib/mysql
+    networks:
+      - sagas
+
+  rabbitmq:
+    container_name: rabbitmq
+    image: rabbitmq:3.12-management
+    ports:
+      - 5672:5672
+      - 15672:15672
+    environment:
+      - RABBITMQ_DEFAULT_USER=dev
+      - RABBITMQ_DEFAULT_PASS=dev
+    volumes:
+      - ./rabbitmq:/var/lib/rabbitmq/mnesia
+    networks:
+      - sagas
+
+networks:
+  sagas:

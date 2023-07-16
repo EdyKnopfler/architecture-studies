@@ -4,10 +4,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class TimeoutApplication {
+public class SagasTestApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(TimeoutApplication.class, args);
+		SpringApplication.run(SagasTestApplication.class, args);
 	}
 
 }

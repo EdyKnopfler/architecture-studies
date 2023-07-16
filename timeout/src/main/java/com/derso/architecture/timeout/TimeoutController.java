@@ -23,6 +23,7 @@ public class TimeoutController {
     @PostMapping("/schedule-timeout")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void scheduleTimeout(@RequestBody TimeoutRequest timeouts) {
+        // TODO persistir os timeouts solicitados, pois caso o serviço caia...
         timeoutTask.scheduleTimeouts(timeouts.itemId(), timeouts.service());
     }
 

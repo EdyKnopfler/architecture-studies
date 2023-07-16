@@ -1,21 +1,38 @@
 package com.derso.architecture.sagastest;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-
-import jakarta.websocket.server.PathParam;
+import org.springframework.web.client.RestTemplate;
 
 @RestController
 @RequestMapping("/testes")
 public class SagasTestController {
     
-    @PostMapping("/:id/pre-reserva")
+    static record TimeoutRequest(long itemId, String service) {
+    }
+    
+    private RestTemplate rest = new RestTemplate();
+    
+    @Value("${timeout.main-url}")
+    private String timeoutUrl;
+    
+    @PostMapping("/{id}/pre-reserva")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void efetuarPreReserva(@PathParam("id") long id) {
+    public void efetuarPreReserva(@PathVariable("id") long id) {
+        HttpEntity<TimeoutRequest> requestBody =
+            new HttpEntity<>(new TimeoutRequest(id, "testes"));
         
+        rest.postForEntity(
+            timeoutUrl + "/schedule-timeout", 
+            requestBody, 
+            null // Seria a classe de retorno, mas aqui é 204
+        );
     }
 
 }

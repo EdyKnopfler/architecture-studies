@@ -6,6 +6,7 @@ import java.util.concurrent.ScheduledExecutorService;
 
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.TaskScheduler;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.concurrent.ConcurrentTaskScheduler;
@@ -25,25 +26,38 @@ import org.springframework.stereotype.Component;
 @Component
 public class TimeoutTask {
     
-    private static final long TIMEOUT_SECONDS = 10;
     private static final String exchange = "architecture-studies";
+    
+    @Value("${timeout.seconds:300}")
+    private int timeoutSeconds;
+    
+    @Value("${timeout.threadpool.howmany:4}")
+    private int howManyThreads;
+    
+    private TaskScheduler scheduler;
     
     @Autowired
     private RabbitTemplate rabbitTemplate;
     
+    public TimeoutTask() {
+        System.out.println(
+            "Criando o pool de threads do agendador de timeouts");
+        
+        ScheduledExecutorService localExecutor = 
+            Executors.newScheduledThreadPool(howManyThreads);
+            
+        scheduler = new ConcurrentTaskScheduler(localExecutor);
+    }
+    
     @Async
     public void scheduleTimeouts(long itemId, String service) {
-        ScheduledExecutorService localExecutor = 
-            Executors.newSingleThreadScheduledExecutor();
-        
-        TaskScheduler scheduler = new ConcurrentTaskScheduler(localExecutor);
-
         scheduler.schedule(
             () -> {
                 String message = "type=timeout&itemId=" + itemId;
                 rabbitTemplate.convertAndSend(exchange, service, message);
             },
-            Instant.now().plusSeconds(TIMEOUT_SECONDS));
+            Instant.now().plusSeconds(timeoutSeconds)
+        );
     }
     
 }

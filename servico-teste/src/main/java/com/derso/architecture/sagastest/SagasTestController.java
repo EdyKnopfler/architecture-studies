@@ -19,6 +19,9 @@ public class SagasTestController {
     
     private RestTemplate rest = new RestTemplate();
     
+    @Value("${timeout.rabbitmq-exchange}")
+    private String exchangeName;
+    
     @Value("${timeout.main-url}")
     private String timeoutUrl;
     
@@ -26,7 +29,7 @@ public class SagasTestController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void efetuarPreReserva(@PathVariable("id") long id) {
         HttpEntity<TimeoutRequest> requestBody =
-            new HttpEntity<>(new TimeoutRequest(id, "testes"));
+            new HttpEntity<>(new TimeoutRequest(id, exchangeName));
         
         rest.postForEntity(
             timeoutUrl + "/schedule-timeout", 

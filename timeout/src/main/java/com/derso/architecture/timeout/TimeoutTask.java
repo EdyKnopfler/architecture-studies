@@ -25,7 +25,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class TimeoutTask {
     
-    private static final long TIMEOUT_MINUTES = 1;
+    private static final long TIMEOUT_SECONDS = 10;
     private static final String exchange = "architecture-studies";
     
     @Autowired
@@ -43,7 +43,7 @@ public class TimeoutTask {
                 String message = "type=timeout&itemId=" + itemId;
                 rabbitTemplate.convertAndSend(exchange, service, message);
             },
-            Instant.now().plusSeconds(TIMEOUT_MINUTES*60));
+            Instant.now().plusSeconds(TIMEOUT_SECONDS));
     }
     
 }

@@ -1,0 +1,74 @@
+# Editado com https://sequencediagram.org/
+
+title Coordenação Entre Serviços
+
+participant "Cliente\nReservas\n(ReactJS)" as cliente
+participant "Coordenador\nReservas\n(Go/Sp. Boot)" as servico_reserva
+participant "Comunicação c/\nServiço Externo\n(Voo/Hotel/etc.)" as comunicacao
+participant "Gerador de\nTimeouts" as timeout
+participant "Serviço de\nPagamento" as pagamento
+
+cliente->servico_reserva:login
+activate cliente
+activate servico_reserva
+cliente<--servico_reserva:cookie da sessão
+deactivate cliente
+deactivate servico_reserva
+
+cliente->cliente:navega entre telas
+activate cliente
+cliente->servico_reserva:solicita opções disponíveis
+activate servico_reserva
+servico_reserva-->cliente:atualiza tela
+deactivate servico_reserva
+deactivate cliente
+
+cliente->servico_reserva:seleciona voo/hotel/etc.
+activate cliente
+activate servico_reserva
+note over servico_reserva,timeout:agenda os timeouts somente na primeira pré-reserva da sessão
+servico_reserva->timeout:agenda timeouts (id sessão)
+activate timeout
+servico_reserva->(2)comunicacao:solicita pré-reserva (id sessão)
+deactivate cliente
+deactivate servico_reserva
+deactivate timeout
+activate comunicacao
+
+comunicacao->servico_reserva:sucesso/erro na pré-reserva
+activate servico_reserva
+servico_reserva->(1)cliente:atualiza tela
+deactivate comunicacao
+activate cliente
+deactivateafter cliente
+deactivate servico_reserva
+
+cliente->pagamento:pagar
+activate cliente
+activate pagamento
+pagamento-->servico_reserva:sucesso/falha
+deactivate pagamento
+activate servico_reserva
+servico_reserva->(1)cliente:informa sucesso/falha
+alt sucesso
+servico_reserva->timeout:cancela timeouts (id sessão)
+activate timeout
+deactivateafter timeout
+end
+deactivate servico_reserva
+deactivate cliente
+
+group ocorreu timeout
+timeout->(2)comunicacao:timeout (id sessão)
+activate timeout
+deactivateafter timeout
+activate comunicacao
+deactivateafter comunicacao
+
+timeout->(4)servico_reserva:timeout (id sessão)
+activate timeout
+deactivateafter timeout
+activate servico_reserva
+servico_reserva->(1)cliente:informa timeout
+deactivate servico_reserva
+end

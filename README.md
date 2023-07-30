@@ -28,3 +28,16 @@ O serviço deve estar escutando na fila para onde a _routing key_ está apontada
 
 https://github.com/EdyKnopfler/architecture-studies/blob/main/doc/planejamento-sagas.jpg
 
+## Coordenando os serviços
+
+A figura a seguir dá a ideia geral:
+
+https://github.com/EdyKnopfler/architecture-studies/blob/main/doc/coordenacao-entre-servicos.png
+
+* Serviço coordenador controla a sessão do usuário
+  * As pré-reservas feitas na sessão carregam o ID
+* Setas inclinadas representam mensagens assíncronas
+  * Do serviço coordenador para o cliente: WebSockets?
+  * Entre os serviços no backend: RabbitMQ
+
+

@@ -22,6 +22,15 @@ A figura a seguir dá a ideia geral:
  
 ![Coordenação entre serviços](https://raw.githubusercontent.com/EdyKnopfler/architecture-studies/main/doc/coordenacao-entre-servicos.png)
 
+### Processo SAGAS
+
+A confirmação do pagamento dispara um processo [SAGAS](https://dev.to/thiagosilva95/saga-pattern-para-microservices-2pb6) entre os serviços de comunicação com os supostos sistemas externos (voos, hotéis, pagamento, etc.):
+
+* Cadeia de confirmações: serviço confirma a reserva e envia mensagem para o próximo
+* Falha em uma confirmação envia uma mensagem para o anterior, disparando uma cadeia no serviço contrário
+  * o final da cadeia de tratamento de falha deve enviar um pedido de cancelamento para o sistema de pagamento
+* Cada serviço deve estar preparado para receber as mensagens como na figura abaixo
+
 ![Mensagens SAGAS](https://raw.githubusercontent.com/EdyKnopfler/architecture-studies/main/doc/planejamento-sagas.png)
 
 ## Serviço de timeout

@@ -49,12 +49,17 @@ activate pagamento
 pagamento-->servico_reserva:sucesso/falha
 deactivate pagamento
 activate servico_reserva
-servico_reserva->(1)cliente:informa sucesso/falha
+
 alt sucesso
+servico_reserva->comunicacao:dispara confirmações (SAGAS)
+activate comunicacao
+deactivateafter comunicacao
 servico_reserva->timeout:cancela timeouts (id sessão)
 activate timeout
 deactivateafter timeout
 end
+
+servico_reserva->(1)cliente:informa sucesso/falha
 deactivate servico_reserva
 deactivate cliente
 

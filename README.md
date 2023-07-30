@@ -26,18 +26,16 @@ curl -i localhost:8080/schedule-timeout -H 'Content-Type: application/json' -d '
 
 O serviço deve estar escutando na fila para onde a _routing key_ está apontada (ref.: https://www.baeldung.com/java-rabbitmq-exchanges-queues-bindings).
 
-https://github.com/EdyKnopfler/architecture-studies/blob/main/doc/planejamento-sagas.jpg
-
 ## Coordenando os serviços
 
 A figura a seguir dá a ideia geral:
-
-https://github.com/EdyKnopfler/architecture-studies/blob/main/doc/coordenacao-entre-servicos.png
 
 * Serviço coordenador controla a sessão do usuário
   * As pré-reservas feitas na sessão carregam o ID
 * Setas inclinadas representam mensagens assíncronas
   * Do serviço coordenador para o cliente: WebSockets?
   * Entre os serviços no backend: RabbitMQ
+ 
+![Coordenação entre serviços](https://raw.githubusercontent.com/EdyKnopfler/architecture-studies/main/doc/coordenacao-entre-servicos.png)
 
 

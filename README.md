@@ -50,7 +50,26 @@ curl -i localhost:8080/schedule-timeout -H 'Content-Type: application/json' -d '
 O serviço deve estar escutando na fila para onde a _routing key_ está apontada (ref.: https://www.baeldung.com/java-rabbitmq-exchanges-queues-bindings).
 
 
+## Questões sobre a garantia de consistência
 
+É importante que a última etapa (pagamento), sendo completada com sucesso, cancele quaisquer timeouts programados -- não importa se já foram disparados e mesmo executados! A possibilidade de um timeout ser processado por algum outro serviço _antes_ da confirmação é real.
 
+Talvez o tratamento do timeout seja o que mais aumenta a complexidade da arquitetura, mais até do que a cadeia de confirmações e reversões do SAGAS.
 
+### Abordagem 1: somente confirmar se o timeout for cancelado com sucesso
+
+Isso cria uma "sequência SAGAS" por si só na operação de confirmar:
+
+1. Cancelamento do timeout
+2. Realização do pagamento
+
+Porém, o que acontece se o pagamento falhar? O timeout deve ser restaurado e voltar a valer.
+
+### Abordagem 2: suspender a validade do timeout ao confirmar um pagamento
+
+Refinando a abordagem 1 a partir da questão levantada, podemos pensar que o timeout deve ter um status, algo como **tempo correndo**, **disparado** ou **pausado** (deixando à parte _cancelado_, sendo que nesse caso ele talvez possa ser excluído). Assim, antes de realizar um pagamento o status deve ser atualizado para **pausado** e o sistema poderá tentar realizar essa última etapa.
+
+O ato de pausar um timeout deve ter a concorrência controlada (facilmente com locks de linha no banco de dados, caso suportado) para não conflitar com o disparo: ou este acontece primeiro, ou a pausa. Se o disparo o correr primeiro, é tempo esgotado e não podemos confirmar o pagamento. Se a pausa ocorrer antes, o disparo é que deve falhar. É mais simples (menos complicado?) do que ter que garantir a reversão de timeouts já disparados e processados nos serviços.
+
+Obviamente, em caso de falha na realização do pagamento o timeout pausado deve voltar a ter o tempo correndo -- inclusive sendo disparado se o tempo se esgotou durante o período de pausa.
 

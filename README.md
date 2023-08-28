@@ -69,7 +69,7 @@ Porém, o que acontece se o pagamento falhar? O timeout deve ser restaurado e vo
 
 Refinando a abordagem 1 a partir da questão levantada, podemos pensar que o timeout deve ter um status, algo como **tempo correndo**, **disparado** ou **pausado** (deixando à parte _cancelado_, sendo que nesse caso ele talvez possa ser excluído). Assim, antes de realizar um pagamento o status deve ser atualizado para **pausado** e o sistema poderá tentar realizar essa última etapa.
 
-O ato de pausar um timeout deve ter a concorrência controlada (facilmente com locks de linha no banco de dados, caso suportado) para não conflitar com o disparo: ou este acontece primeiro, ou a pausa. Se o disparo o correr primeiro, é tempo esgotado e não podemos confirmar o pagamento. Se a pausa ocorrer antes, o disparo é que deve falhar. É mais simples (menos complicado?) do que ter que garantir a reversão de timeouts já disparados e processados nos serviços.
+O ato de pausar um timeout deve ter a concorrência controlada (facilmente com locks de linha no banco de dados, caso suportado, ou qualquer outra modalidade de controle distribuído de concorrẽncia) para não conflitar com o disparo: ou este acontece primeiro, ou a pausa. Se o disparo o correr primeiro, é tempo esgotado e não podemos confirmar o pagamento. Se a pausa ocorrer antes, o disparo é que deve falhar. É mais simples (menos complicado?) do que ter que garantir a reversão de timeouts já disparados e processados nos serviços.
 
 Obviamente, em caso de falha na realização do pagamento o timeout pausado deve voltar a ter o tempo correndo -- inclusive sendo disparado se o tempo se esgotou durante o período de pausa.
 

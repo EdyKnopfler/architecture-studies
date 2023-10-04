@@ -3,6 +3,7 @@
 
 # Database
 db/
+cache/
 
 # RabbitMQ persistence
 rabbitmq/

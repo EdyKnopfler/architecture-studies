@@ -20,7 +20,7 @@ public class SessaoController {
 	public String novaSessao() {
 		UUID uuid = UUID.randomUUID();
 		
-		// TODO persistir no MySQL
+		// TODO persistir no MySQL sob trava!
 		
 		return uuid.toString();
 	}

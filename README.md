@@ -62,28 +62,40 @@ Obviamente, em caso de falha na realização do pagamento o timeout pausado deve
 
 ## Serviço de controle das sessões
 
-**TODO** melhorar esta documentação conforme o serviço de controle for evoluindo.
+Escolhemos o Redis como mecanismo de trava (ver abordagem 2) para a alteração do estado das sessões. A persistência é realizada no MySQL.
 
-Escolhemos o Redis como mecanismo de trava (ver abordagem 2) para a alteração do estado das sessões.
+Para rodar é preciso subir os serviços `db` (MySQL) e `cache` (Redis) do `docker-compose.yml` do projeto:
+
+```bash
+docker compose up db cache
+```
 
 ### `POST /sessoes/nova`
 
-Cria uma nova sessão e devolve seu ID.
+Cria uma nova sessão e devolve seu UUID.
 
 ### `PUT /sessoes/<id>/estado`
 
-(ainda sem corpo pois não estamos persistindo)
-
 Altera o estado de uma sessão. Um teste de concorrência pode ser feito:
+
+1. Guardamos alguns parâmetros:
+
+```bash
+export HEADER='Content-Type: application/json'
+export DADOS='{"novoEstado": "TEMPO_ESGOTADO"}'  # veja enum EstadoSessao
+```
 
 1. Alterando múltiplas sessões diferentes simultaneamente: todas devolvem `ok`.
 
 ```bash
-for i in a b c d; do bash -c "curl -X PUT localhost:8080/sessoes/$i/estado &"; done
+# Troque "a", "b", "c" e "d" por UUIDs de sessões gerados
+# O & ao final do comando bash é que garante o disparo simultâneo (roda cada um em background) 
+for i in "a" "b" "c" "d"; do bash -c "curl -X PUT localhost:8080/sessoes/$i/estado -H '$HEADER' -d '$DADOS' &"; done
 ```
 
-2. Tentando alterar a mesma sessão simultaneamente: somente uma devolve `ok`; as outras devolvem `falhou`.
+2. Tentando alterar a mesma sessão simultaneamente: algumas devolvem `ok` e outras devolvem `falhou`; isso depende de quantas por vez o servidor processa e o tempo necessário para cada uma:
 
 ```bash
-for i in $(seq 1 5); do bash -c "curl -X PUT localhost:8080/sessoes/MESMATRAVA/estado &"; done
+# Troque <UUIDUNICO> por um UUID gerado
+for i in $(seq 1 5); do bash -c "curl -X PUT 'localhost:8080/sessoes/<UUIDUNICO>/estado' -H '$HEADER' -d '$DADOS' &"; done
 ```

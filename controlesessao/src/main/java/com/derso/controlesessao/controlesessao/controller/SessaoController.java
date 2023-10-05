@@ -1,40 +1,45 @@
-package com.derso.controlesessao.controlesessao;
-
-import java.util.UUID;
+package com.derso.controlesessao.controlesessao.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.derso.controlesessao.controlesessao.persistencia.Sessao;
+import com.derso.controlesessao.controlesessao.persistencia.SessaoRepositorio;
+import com.derso.controlesessao.controlesessao.trava.ServicoTrava;
+
+import jakarta.transaction.Transactional;
 
 @RestController
 @RequestMapping("/sessoes")
 public class SessaoController {
 	
 	@Autowired
-	public ServicoTrava servicoTrava;
+	private ServicoTrava servicoTrava;
+	
+	@Autowired
+	private SessaoRepositorio sessaoRepositorio;
 	
 	@PostMapping("/nova")
+	@Transactional
 	public String novaSessao() {
-		UUID uuid = UUID.randomUUID();
-		
-		// TODO persistir no MySQL sob trava!
-		
-		return uuid.toString();
+		Sessao sessao = new Sessao();
+		sessaoRepositorio.save(sessao);
+		return sessao.getUuid();
 	}
 	
 	@PutMapping("/{uuid}/estado")
-	public String alterarSessao(@PathVariable("uuid") String uuidSessao) {
+	@Transactional
+	public String alterarSessao(
+			@PathVariable("uuid") String uuidSessao,
+			@RequestBody EstadoSessaoDTO requisicao
+	) {
 		boolean executou = servicoTrava.executarSobTrava(uuidSessao, () -> {
-			// TODO alterar no MySQL -- por enquanto simulando algo demorado
-			try {
-				Thread.sleep(5000);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			sessaoRepositorio.atualizarEstado(uuidSessao, requisicao.novoEstado());
 		});
 		return executou ? "ok" : "falhou";
 	}

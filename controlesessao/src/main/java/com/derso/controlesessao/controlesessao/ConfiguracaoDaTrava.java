@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.integration.redis.util.RedisLockRegistry;
+import org.springframework.integration.redis.util.RedisLockRegistry.RedisLockType;
 import org.springframework.integration.support.locks.ExpirableLockRegistry;
 
 @Configuration
@@ -16,7 +17,10 @@ public class ConfiguracaoDaTrava {
 	
 	@Bean(destroyMethod = "destroy")
 	public ExpirableLockRegistry redisLockRegistry(RedisConnectionFactory redisConnectionFactory) {
-	    return new RedisLockRegistry(redisConnectionFactory, NOME_TRAVA, DURACAO_TRAVA.toMillis());
+	    RedisLockRegistry registroTravas = 
+	    		new RedisLockRegistry(redisConnectionFactory, NOME_TRAVA, DURACAO_TRAVA.toMillis());
+	    registroTravas.setRedisLockType(RedisLockType.PUB_SUB_LOCK);
+	    return registroTravas;
 	}
 
 

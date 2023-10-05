@@ -33,22 +33,9 @@ A confirmação do pagamento dispara um processo [SAGAS](https://dev.to/thiagosi
 
 ![Mensagens SAGAS](https://raw.githubusercontent.com/EdyKnopfler/architecture-studies/main/doc/planejamento-sagas.png)
 
-## Serviço de timeout
+## Timeouts
 
-Quando algum serviço de reserva (hotel ou passagem aérea) realiza uma _pré-reserva_ (o ato do usuário de assinalar na interface uma opção, antes que tenha feito pagamento), ele deve definir um tempo máximo para manter o recurso escolhido bloqueado. O serviço de timeouts permite agendar uma mensagem para ser enviada a qualquer serviço (inclusive de volta para o próprio solicitante) após um intervalo de tempo, que é uniforme para todos os serviços.
-
-O intuito deste derviço é testar a ideia na máquina de desenvolvimento. Em produção, preferiria delegar o agendamento de tarefas para a infraestrutura se possível, e não ter que me preocupar em armazenar os agendamentos, recuperá-los em caso de falha, ter que lidar com a alocação da quantidade certa de instâncias...
-
-O agendamento é realizado a partir do endpoint `/schedule-timeout`, que recebe um POST contendo:
-* `itemId`: o id do item que deve ser cancelado
-* `service`: nome do _routing key_ do RabbitMQ que aponta para a fila do serviço
-
-```bash
-curl -i localhost:8080/schedule-timeout -H 'Content-Type: application/json' -d '{"service": "hoteis", "itemId": 123456}'
-```
-
-O serviço deve estar escutando na fila para onde a _routing key_ está apontada (ref.: https://www.baeldung.com/java-rabbitmq-exchanges-queues-bindings).
-
+Quando algum serviço de reserva (hotel ou passagem aérea) realiza uma _pré-reserva_ (o ato do usuário de assinalar na interface uma opção, antes que tenha feito pagamento), ele deve definir um tempo máximo para manter o recurso escolhido bloqueado. O serviço de sessões permite agendar uma mensagem para ser enviada a qualquer serviço (inclusive de volta para o próprio solicitante) após um intervalo de tempo, que é uniforme para todos os serviços.
 
 ## Questões sobre a garantia de consistência
 
@@ -73,3 +60,30 @@ O ato de pausar um timeout deve ter a concorrência controlada (facilmente com l
 
 Obviamente, em caso de falha na realização do pagamento o timeout pausado deve voltar a ter o tempo correndo -- inclusive sendo disparado se o tempo se esgotou durante o período de pausa.
 
+## Serviço de controle das sessões
+
+**TODO** melhorar esta documentação conforme o serviço de controle for evoluindo.
+
+Escolhemos o Redis como mecanismo de trava (ver abordagem 2) para a alteração do estado das sessões.
+
+### `POST /sessoes/nova`
+
+Cria uma nova sessão e devolve seu ID.
+
+### `PUT /sessoes/<id>/estado`
+
+(ainda sem corpo pois não estamos persistindo)
+
+Altera o estado de uma sessão. Um teste de concorrência pode ser feito:
+
+1. Alterando múltiplas sessões diferentes simultaneamente: todas devolvem `ok`.
+
+```bash
+for i in a b c d; do bash -c "curl -X PUT localhost:8080/sessoes/$i/estado &"; done
+```
+
+2. Tentando alterar a mesma sessão simultaneamente: somente uma devolve `ok`; as outras devolvem `falhou`.
+
+```bash
+for i in $(seq 1 5); do bash -c "curl -X PUT localhost:8080/sessoes/MESMATRAVA/estado &"; done
+```

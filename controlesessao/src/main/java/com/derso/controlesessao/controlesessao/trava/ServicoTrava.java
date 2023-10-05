@@ -1,4 +1,4 @@
-package com.derso.controlesessao.controlesessao;
+package com.derso.controlesessao.controlesessao.trava;
 
 import java.util.concurrent.locks.Lock;
 

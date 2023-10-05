@@ -16,12 +16,13 @@ public class ServicoTrava {
 		System.out.println("Vou obter a trava " + idSessao);
 		Lock lock = lockRegistry.obtain(idSessao);
         boolean success = lock.tryLock();
-        System.out.println("obtive trava " + idSessao);
 
         if (!success) {
+            System.out.println("não obtive trava " + idSessao);
             return false;
         }
         
+        System.out.println("obtive trava " + idSessao);
         acao.run();
         lock.unlock();
         return true;

@@ -22,9 +22,13 @@ public class ServicoTrava {
             return false;
         }
         
-        System.out.println("obtive trava " + idSessao);
-        acao.run();
-        lock.unlock();
+        try {        	
+        	System.out.println("obtive trava " + idSessao);
+        	acao.run();
+        } finally {        	
+        	lock.unlock();
+        }
+        
         return true;
 	}
 

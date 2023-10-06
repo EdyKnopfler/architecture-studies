@@ -1,4 +1,4 @@
-package com.derso.controlesessao.controlesessao.persistencia;
+package com.derso.controlesessao.persistencia;
 
 import java.time.Instant;
 import java.util.UUID;

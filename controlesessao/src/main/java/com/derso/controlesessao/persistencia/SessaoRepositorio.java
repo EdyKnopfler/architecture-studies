@@ -1,4 +1,4 @@
-package com.derso.controlesessao.controlesessao.persistencia;
+package com.derso.controlesessao.persistencia;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;

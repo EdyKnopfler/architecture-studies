@@ -1,4 +1,4 @@
-package com.derso.controlesessao.controlesessao.controller;
+package com.derso.controlesessao.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -8,9 +8,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.derso.controlesessao.controlesessao.persistencia.Sessao;
-import com.derso.controlesessao.controlesessao.persistencia.SessaoRepositorio;
-import com.derso.controlesessao.controlesessao.trava.ServicoTrava;
+import com.derso.controlesessao.persistencia.Sessao;
+import com.derso.controlesessao.persistencia.SessaoRepositorio;
+import com.derso.controlesessao.trava.ServicoTrava;
 
 import jakarta.transaction.Transactional;
 

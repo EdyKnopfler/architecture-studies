@@ -1,4 +1,4 @@
-package com.derso.controlesessao.controlesessao.trava;
+package com.derso.controlesessao.trava;
 
 import java.time.Duration;
 

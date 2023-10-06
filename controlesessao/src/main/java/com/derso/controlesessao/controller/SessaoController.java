@@ -8,8 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.derso.controlesessao.persistencia.Sessao;
-import com.derso.controlesessao.persistencia.SessaoRepositorio;
+import com.derso.controlesessao.persistencia.SessaoServico;
 import com.derso.controlesessao.trava.ServicoTrava;
 
 import jakarta.transaction.Transactional;
@@ -19,17 +18,15 @@ import jakarta.transaction.Transactional;
 public class SessaoController {
 	
 	@Autowired
-	private ServicoTrava servicoTrava;
+	private SessaoServico sessaoServico;
 	
 	@Autowired
-	private SessaoRepositorio sessaoRepositorio;
+	private ServicoTrava servicoTrava;
 	
 	@PostMapping("/nova")
 	@Transactional
 	public String novaSessao() {
-		Sessao sessao = new Sessao();
-		sessaoRepositorio.save(sessao);
-		return sessao.getUuid();
+		return sessaoServico.novaSessao().getUuid();
 	}
 	
 	@PutMapping("/{uuid}/estado")
@@ -39,7 +36,7 @@ public class SessaoController {
 			@RequestBody EstadoSessaoDTO requisicao
 	) {
 		boolean executou = servicoTrava.executarSobTrava(uuidSessao, () -> {
-			sessaoRepositorio.atualizarEstado(uuidSessao, requisicao.novoEstado());
+			sessaoServico.atualizarEstado(uuidSessao, requisicao.novoEstado());
 		});
 		return executou ? "ok" : "falhou";
 	}

@@ -1,6 +1,10 @@
 package com.derso.controlesessao.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -9,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.derso.controlesessao.persistencia.SessaoServico;
+import com.derso.controlesessao.persistencia.TransicaoInvalidaException;
 import com.derso.controlesessao.trava.ServicoTrava;
 
 import jakarta.transaction.Transactional;
@@ -39,6 +44,14 @@ public class SessaoController {
 			sessaoServico.atualizarEstado(uuidSessao, requisicao.novoEstado());
 		});
 		return executou ? "ok" : "falhou";
+	}
+	
+	@ExceptionHandler(TransicaoInvalidaException.class)
+	public Map<String, String> erroTransicaoInvalida(TransicaoInvalidaException erro) {
+		Map<String, String> resposta = new HashMap<>();
+		resposta.put("erro", erro.getMessage());
+		resposta.put("estadoAtual", erro.getEstadoAtual().toString());
+		return resposta;
 	}
 
 }

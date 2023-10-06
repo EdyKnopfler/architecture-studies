@@ -42,8 +42,7 @@ public class SessaoServico {
 		Sessao atual = sessaoRepositorio.findById(uuidSessao).get();
 		
 		if (!transicoesValidas.get(atual.getEstado()).contains(novoEstado)) {
-			throw new RuntimeException(
-					"Transição inválida: " + atual.getEstado() + " para " + novoEstado);
+			throw new TransicaoInvalidaException(atual.getEstado());
 		}
 		
 		sessaoRepositorio.atualizarEstado(uuidSessao, novoEstado);

@@ -6,10 +6,10 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 
 @SpringBootApplication
 @EnableScheduling
-public class DisparotimeoutsApplication {
+public class DisparoTimeoutsApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(DisparotimeoutsApplication.class, args);
+		SpringApplication.run(DisparoTimeoutsApplication.class, args);
 	}
 
 }

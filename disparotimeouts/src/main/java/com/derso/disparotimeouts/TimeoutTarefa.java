@@ -8,8 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import com.derso.controlesessao.persistencia.EstadoSessao;
 import com.derso.controlesessao.persistencia.Sessao;
 import com.derso.controlesessao.persistencia.SessaoRepositorio;
+import com.derso.controlesessao.persistencia.SessaoServico;
+import com.derso.controlesessao.persistencia.TransicaoInvalidaException;
 
 @Service
 public class TimeoutTarefa {
@@ -19,6 +22,9 @@ public class TimeoutTarefa {
 	
 	@Autowired
 	private SessaoRepositorio sessaoRepositorio;
+	
+	@Autowired
+	private SessaoServico sessaoServico;
 	
 	@Autowired
     private RabbitTemplate rabbitTemplate;
@@ -39,15 +45,25 @@ public class TimeoutTarefa {
 			System.out.println(
 					"Sessão expirada em: " + sessao.getExpiracao().atZone(
 							ZoneId.of("America/Sao_Paulo")));
+			
+			try {
+				sessaoServico.atualizarEstado(sessao.getUuid(), EstadoSessao.TEMPO_ESGOTADO);
+			} catch (TransicaoInvalidaException e) {
+				System.out.println("Transição inválida, pulando. Estado atual: " + e.getEstadoAtual());
+				continue;
+			} catch (Exception e) {
+				System.err.println("Impossível atualizar o estado da sessão:");
+				e.printStackTrace();
+				continue;
+			}
+			
+			for (String servico : servicos) {
+				String mensagem = "type=timeout&sessaoUUID=" + sessao.getUuid();
+				System.out.println("Enviando " + mensagem);
+				rabbitTemplate.convertAndSend(exchange, servico, mensagem);
+			}
 		}
 		
-		/*
-		for (String servico : servicos) {
-			String mensagem = "type=timeout&itemId=XXXX";
-			System.out.println("Enviando " + mensagem);
-			rabbitTemplate.convertAndSend(exchange, servico, mensagem);
-		}
-		*/
 	}
 
 }

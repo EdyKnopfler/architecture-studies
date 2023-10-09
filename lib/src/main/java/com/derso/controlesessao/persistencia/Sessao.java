@@ -14,19 +14,21 @@ import lombok.Getter;
 @Getter
 public class Sessao {
 	
+	public static final int DURACAO_MINUTOS = 10;
+	
 	@Id
 	@Column(length = 36)
 	private String uuid;
 	
 	@Column(columnDefinition = "TIMESTAMP")
-	private Instant criacao;
+	private Instant expiracao;
 	
 	@Enumerated(EnumType.STRING)
 	private EstadoSessao estado;
 	
 	public Sessao() {
 		uuid = UUID.randomUUID().toString();
-		criacao = Instant.now();
+		expiracao = Instant.now().plusSeconds(DURACAO_MINUTOS * 60);
 		estado = EstadoSessao.CORRENDO;
 	}
 

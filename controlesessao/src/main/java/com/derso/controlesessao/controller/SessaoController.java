@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.derso.controlesessao.persistencia.SessaoServico;
 import com.derso.controlesessao.persistencia.TransicaoInvalidaException;
-import com.derso.controlesessao.trava.ServicoTrava;
 
 import jakarta.transaction.Transactional;
 
@@ -24,9 +23,6 @@ public class SessaoController {
 	
 	@Autowired
 	private SessaoServico sessaoServico;
-	
-	@Autowired
-	private ServicoTrava servicoTrava;
 	
 	@PostMapping("/nova")
 	@Transactional
@@ -40,9 +36,7 @@ public class SessaoController {
 			@PathVariable("uuid") String uuidSessao,
 			@RequestBody EstadoSessaoDTO requisicao
 	) {
-		boolean executou = servicoTrava.executarSobTrava(uuidSessao, () -> {
-			sessaoServico.atualizarEstado(uuidSessao, requisicao.novoEstado());
-		});
+		boolean executou = sessaoServico.atualizarEstado(uuidSessao, requisicao.novoEstado());
 		return executou ? "ok" : "falhou";
 	}
 	

@@ -9,6 +9,8 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.derso.controlesessao.trava.ServicoTrava;
+
 @Service
 public class SessaoServico {
 	
@@ -16,6 +18,9 @@ public class SessaoServico {
 	
 	@Autowired
 	private SessaoRepositorio sessaoRepositorio;
+	
+	@Autowired
+	private ServicoTrava servicoTrava;
 
 	public SessaoServico() {
 		criarTransicoesValidas(
@@ -38,14 +43,16 @@ public class SessaoServico {
 		return sessao;
 	}
 
-	public void atualizarEstado(String uuidSessao, EstadoSessao novoEstado) {
-		Sessao atual = sessaoRepositorio.findById(uuidSessao).get();
-		
-		if (!transicoesValidas.get(atual.getEstado()).contains(novoEstado)) {
-			throw new TransicaoInvalidaException(atual.getEstado());
-		}
-		
-		sessaoRepositorio.atualizarEstado(uuidSessao, novoEstado);
+	public boolean atualizarEstado(String uuidSessao, EstadoSessao novoEstado) {
+		return servicoTrava.executarSobTrava(uuidSessao, () -> {
+			Sessao atual = sessaoRepositorio.findById(uuidSessao).get();
+			
+			if (!transicoesValidas.get(atual.getEstado()).contains(novoEstado)) {
+				throw new TransicaoInvalidaException(atual.getEstado());
+			}
+			
+			sessaoRepositorio.atualizarEstado(uuidSessao, novoEstado);
+		});
 	}
 	
 }

@@ -11,6 +11,11 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableScheduling
 @EnableJpaRepositories("com.derso.controlesessao.persistencia")
 @EntityScan("com.derso.controlesessao.persistencia")
+@ComponentScan(basePackages = {
+		"com.derso.disparotimeouts",
+		"com.derso.controlesessao.persistencia",
+		"com.derso.controlesessao.trava"
+})
 public class DisparoTimeoutsApplication {
 
 	public static void main(String[] args) {

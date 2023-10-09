@@ -8,6 +8,7 @@ import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.derso.controlesessao.trava.ServicoTrava;
 
@@ -43,6 +44,7 @@ public class SessaoServico {
 		return sessao;
 	}
 
+	@Transactional
 	public boolean atualizarEstado(String uuidSessao, EstadoSessao novoEstado) {
 		return servicoTrava.executarSobTrava(uuidSessao, () -> {
 			Sessao atual = sessaoRepositorio.findById(uuidSessao).get();

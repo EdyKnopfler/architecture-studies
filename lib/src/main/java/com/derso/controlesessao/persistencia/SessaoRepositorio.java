@@ -20,4 +20,8 @@ public interface SessaoRepositorio extends JpaRepository<Sessao, String> {
 	""")
 	List<Sessao> sessoesExpiradasCorrendo();
 
+	@Modifying
+	@Query("DELETE FROM Sessao s WHERE s.estado NOT IN ('CORRENDO', 'PAUSADA')")
+	void removerInvalidos();
+
 }
